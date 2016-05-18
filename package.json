@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "dependencies": {
+    "discordie": "^0.6.2",
+    "log4js": "^0.6.36"
+  },
+  "devDependencies": {
+    "iced-coffee-script": "^108.0.11"
+  }
+}
