@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "start": "./node_modules/.bin/iced app.iced"
+    "start": "echo run './node_modules/.bin/iced app.iced'. Letting npm do it results in weird signal catching, dont like it"
   },
   "dependencies": {
     "discordie": "^0.6.2",
