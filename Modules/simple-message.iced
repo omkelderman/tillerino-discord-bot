@@ -27,15 +27,6 @@ delSimpleHandler = (str, args, message) ->
     else
         message.channel.sendMessage 'im confused...'
 
-redisTestHandler = (str, args, message) ->
-    callback = (err, resp) ->
-        return message.channel.sendMessage "Redis err: #{err}" if err
-        message.channel.sendMessage "Redis resp: #{resp}"
-    if args[0] is 'set'
-        _redisClient.set args[1], args[2], callback
-    if args[0] is 'get'
-        _redisClient.get args[1], callback
-
 allHandler = (command, argsString, args, message, adminMessage) ->
     _redisClient.get "simple:#{command}", (err, resp) ->
         return redisErrorHandler err, message.channel if err
@@ -43,12 +34,20 @@ allHandler = (command, argsString, args, message, adminMessage) ->
         prefix = if args[0] then "#{args[0]}: " else ''
         message.channel.sendMessage "#{prefix}#{resp}"
 
+listSimpleHandler = (argsString, args, message, adminMessage) ->
+    prefix = "#{_settings.redis.prefix}simple:"
+    prefixLen = prefix.length
+    _redisClient.keys "#{prefix}*", (err, resp) ->
+        return redisErrorHandler err, message.channel if err
+        list = resp.map (x) -> _bot.command_prefix + x.slice prefixLen
+        message.channel.sendMessage "#{message.author.mention}: #{list.join ', '}"
+
 # start stop logic
 startTestModule = (bot, done) ->
     _bot = bot
-    _bot.addListener 'command!:redis-test', redisTestHandler
     _bot.addListener 'command!:addsimple', addSimpleHandler
     _bot.addListener 'command!:delsimple', delSimpleHandler
+    _bot.addListener 'command:listsimple', listSimpleHandler
     _bot.addListener 'command', allHandler
 
     # debug redis stuff
@@ -59,9 +58,9 @@ startTestModule = (bot, done) ->
     done()
 
 stopTestModule = (done) ->
-    _bot.removeListener 'command!:redis-test', redisTestHandler
     _bot.removeListener 'command!:addsimple', addSimpleHandler
     _bot.removeListener 'command!:delsimple', delSimpleHandler
+    _bot.removeListener 'command:listsimple', listSimpleHandler
     _bot.removeListener 'command', allHandler
     _redisClient.once 'end', done
     _redisClient.quit()
