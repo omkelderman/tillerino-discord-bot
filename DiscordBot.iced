@@ -79,9 +79,11 @@ class DiscordBot extends process.EventEmitter
             args = argsString.split /\s+/
 
         # emit them events
+        @emit 'command', command, argsString, args, message, adminMessage
         @emit "command:#{command}", argsString, args, message, adminMessage
         @emit "#{command}-command:#{command}", argsString, args, message, adminMessage
         if adminMessage
+            @emit 'command!', command, argsString, args, message
             @emit "command!:#{command}", argsString, args, message
             @emit "#{command}!-command:#{command}", argsString, args, message
         logger.debug '%shandle command %s-%s: [%s]', (if adminMessage then '!' else ''), prefix, command, argsString

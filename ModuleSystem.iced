@@ -42,7 +42,7 @@ module.exports = ModuleSystem =
 
             cb err
         catch error
-            logger.info "module #{name} does not exists", err
+            logger.warn "could not start module #{name}", error
             cb error
 
     # stop 'name' if not already stopped
