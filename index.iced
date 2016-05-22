@@ -17,20 +17,24 @@ logger = log4js.getLogger 'app'
 # all done, start all the other stuff
 
 logger.info "starting app with pid #{process.pid}"
-bot = new (require('./DiscordBot')) settings.discord
 
+# connect to discord
+bot = new (require('./DiscordBot')) settings.discord
 await bot.once 'ready', defer botUsername
 logger.info 'bot ready', botUsername
 
+# init module system
 ModuleSystem = require './ModuleSystem'
 ModuleSystem.init MODULE_DIR, bot
 
-# start modules #
+# start modules on startup
 logger.info 'starting all modules'
 await ModuleSystem.startAll defer()
 logger.info 'all modules should be started'
 
-############# test shit ##############
+# everything should be ready now :D
+
+###################### start of start/stop/restart logic ######################
 
 startModule = (name, channel, cb) ->
     await ModuleSystem.start name, defer err
@@ -47,7 +51,6 @@ stopModule = (name, channel, cb) ->
         channel.sendMessage "stopped module #{name}"
     cb() if cb
 
-
 bot.on 'command!:start', (str, args, message) ->
     for name in args
         await startModule name, message.channel, defer()
@@ -60,15 +63,6 @@ bot.on 'command!:restart', (str, args, message) ->
     for name in args
         await stopModule name, message.channel, defer()
         await startModule name, message.channel, defer()
-
-# bot.on 'command!:restart', (str, args, message) ->
-#     for name in args
-#         await ModuleSystem.restart name, defer err
-#         if err
-#             message.channel.sendMessage "could not restart module #{name}"
-#         else
-#             message.channel.sendMessage "restarted module #{name}"
-
 
 startAll = (channel, cb) ->
     await ModuleSystem.startAll defer started
@@ -84,7 +78,7 @@ bot.on 'command!:startAll', (str, args, message) -> startAll message.channel
 bot.on 'command!:stopAll', (str, args, message) -> stopAll message.channel
 bot.on 'command!:restartAll', (str, args, message) -> stopAll message.channel, -> startAll message.channel
 
-########## end of test shit ##########
+####################### end of start/stop/restart logic #######################
 
 # on both SIGINT and SIGTERM start shutting down gracefully
 process.on 'SIGINT', -> process.emit 'requestShutdown'

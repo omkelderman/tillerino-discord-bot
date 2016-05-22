@@ -2,7 +2,7 @@
 _bot = null
 
 pingHandler = (str, args, message, isAdmin) -> message.channel.sendMessage 'pong!'
-echoHandler = (str, args, message, isAdmin) -> message.channel.sendMessage "#{message.author.mention}: #{str}"
+echoHandler = (str, args, message) -> message.channel.sendMessage "#{message.author.mention}: #{str}"
 
 # start stop logic
 startTestModule = (bot, done) ->
