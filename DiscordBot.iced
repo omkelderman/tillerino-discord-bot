@@ -18,16 +18,19 @@ class DiscordBot extends process.EventEmitter
             guild = client.Guilds.find (g) -> g.id is settings.guild_id
             return @emit 'error', 'could not find guild' if not guild
             @guild = guild
+            logger.info 'Found guild [%s (%d)]', guild.name, guild.id
 
             # get announche channel
             announche_channel = guild.textChannels.find (tc) -> tc.name.compareIgnoreCase settings.announche_channel
             return @emit 'error', 'could not find text-channel' if not announche_channel
             @announche_channel = announche_channel
+            logger.info 'Found announche text-channel [%s (%d)]', announche_channel.name, announche_channel.id
 
             # get admin-role
             admin_role = guild.roles.find (r) -> r.name.compareIgnoreCase settings.admin_role
             return @emit 'error', 'could not find admin-role' if not admin_role
             @admin_role = admin_role
+            logger.info 'Found admin-role [%s (%d)]', admin_role.name, admin_role.id
 
             @botUser = client.User
             @emit 'ready', client.User.username
