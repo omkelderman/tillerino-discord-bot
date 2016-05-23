@@ -13,7 +13,7 @@ class DiscordBot extends process.EventEmitter
         client.connect token: settings.token
         client.Dispatcher.on 'MESSAGE_CREATE', (e) =>
             @_handleMessage e.message if e.message
-        client.Dispatcher.on 'GATEWAY_READY', (e) =>
+        client.Dispatcher.once 'GATEWAY_READY', (e) =>
             # get guild
             guild = client.Guilds.find (g) -> g.id is settings.guild_id
             return @emit 'error', 'could not find guild' if not guild
