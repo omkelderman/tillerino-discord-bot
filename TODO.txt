@@ -1,0 +1,5 @@
+probably make the statuscake-watcher better
+a thing that pulls data from @osustatus twitter?
+a thing that polls tillerinobot itself for status-info
+
+a thing where you can (re)set your osu-id in the name-to-id-database
