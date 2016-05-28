@@ -34,13 +34,29 @@ class DiscordBot extends process.EventEmitter
 
             @botUser = client.User
             @emit 'ready', client.User.username
+
+            # for debugging purposes, lets catch all other GATEWAY_READY events
+            client.Dispatcher.on 'GATEWAY_READY', (e) ->
+                logger.debug 'GATEWAY_READY (again)'
+                newGuild = client.Guilds.find (g) -> g.id is settings.guild_id
+                logger.debug '"new" guild:', (newGuild && newGuild.name)
         client.Dispatcher.on 'DISCONNECTED', (e) =>
+            # highly experimental stuff here :P
+            if e.autoReconnect
+                # lets see if this helps
+                logger.debug 'DISCONNECTED ignored because autoReconnect????', e
+                return
+
             # lets die for now, probably should do something better
+            logger.error 'DISCONNECTED', e.error
             @emit 'error', e.error
 
     close: () -> @client.disconnect()
 
-    _isMessageFromAdmin: (message) -> message.member.hasRole @admin_role
+    _isMessageFromAdmin: (message) ->
+        # this is flawed, doesnt work for DM-messages
+        # TODO fix!!
+        message.member && message.member.hasRole @admin_role
 
     _handleMessage: (message) ->
         #ignore our own messages
