@@ -22,15 +22,23 @@ faqHandler = (str, args, message, isAdmin) ->
     # array-join 'hack' to not get 'undefined' in result string :P
     message.channel.sendMessage [mention, prefix, url].join ''
 
+listHandler = (str, args, message, isAdmin) ->
+    str = '```\n'
+    for key, value of sections
+        str += key + ' -> #' + value + '\n'
+    str += '```'
+    message.channel.sendMessage str
 
 # start stop logic
 startTestModule = (bot, done) ->
     _bot = bot
     _bot.addListener 'command:faq', faqHandler
+    _bot.addListener 'command:faqlist', listHandler
     done()
 
 stopTestModule = (done) ->
     _bot.removeListener 'command:faq', faqHandler
+    _bot.removeListener 'command:faqlist', listHandler
     done()
 
 module.exports = (bot, done) ->
