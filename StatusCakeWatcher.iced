@@ -1,3 +1,4 @@
+logger = require('log4js').getLogger 'StatusCakeWatcher'
 #current url = 'https://www.statuscake.com/App/Workfloor/PublicReportHandler.php?PublicID={publicId}&TestID={testId}'
 #history url = 'https://www.statuscake.com/App/Workfloor/Get.Status.Perioids.php?PublicID={publicId}&VID={testId}'
 
@@ -27,7 +28,7 @@ class StatusCakeWatcher extends process.EventEmitter
     startWatching: (intervalSec, cb) ->
         await @queryCurrentStatus defer err, result
         if err
-            logger.error 'could not query statuscake', err
+            logger.error 'could not query statuscake (status)', err
             return cb err
         @name = result.SiteName
         @intervalId = setIntervalWithThis @, @_watchInterval, intervalSec*1000
@@ -37,7 +38,7 @@ class StatusCakeWatcher extends process.EventEmitter
     _watchInterval: () ->
         await @queryStatusHistory defer err, result
         if err
-            logger.error 'could not query statuscake', err
+            logger.error 'could not query statuscake (history)', err
             # TODO do something smart
             return
 
