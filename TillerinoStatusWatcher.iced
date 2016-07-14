@@ -49,7 +49,6 @@ class TillerinoStatusWatcher extends process.EventEmitter
 
             # lastInteraction-event, can always fire regardles of first run or not
             delta = Date.now() - botInfo.lastInteraction
-            logger.info 'lastInteraction-delta', delta
             if (delta >= @neededLastInteractionSilenceMs) && (not @lastInteractionDeltaWarningGiven)
                 # lastInteraction-silence bigger then given value
                 @lastInteractionDeltaWarningGiven = true
