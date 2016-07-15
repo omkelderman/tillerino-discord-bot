@@ -13,13 +13,13 @@ _tillerinoStatusWatcher.on 'connectedChanged', (connected) ->
         _bot.announche_channel.sendMessage 'Tillerinobot connected :smile:'
 
 _tillerinoStatusWatcher.on 'lastInteraction', (silence, delta) ->
-    logger.info 'lastInteraction-event', connected
+    logger.info 'lastInteraction-event', silence, delta
     if silence
         _bot.announche_channel.sendMessage 'bot is ded'
     else
         _bot.announche_channel.sendMessage 'bot is not ded'
 _tillerinoStatusWatcher.on 'ded', (ded) ->
-    logger.info 'ded-event', connected
+    logger.info 'ded-event', ded
     if ded
         _bot.announche_channel.sendMessage 'bot is ded'
     else
