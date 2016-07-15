@@ -7,10 +7,10 @@ _tillerinoStatusWatcher = new TillerinoStatusWatcher _settings.tillerinoBotInfo.
 
 _tillerinoStatusWatcher.on 'connectedChanged', (connected) ->
     logger.info 'new connected value', connected
-    if connected
-        _bot.announche_channel.sendMessage 'Tillerinobot just disconnected :cry:'
-    else
-        _bot.announche_channel.sendMessage 'Tillerinobot connected :smile:'
+    # if connected
+    #     _bot.announche_channel.sendMessage 'Tillerinobot just disconnected :cry:'
+    # else
+    #     _bot.announche_channel.sendMessage 'Tillerinobot connected :smile:'
 
 _tillerinoStatusWatcher.on 'lastInteraction', (silence, delta) ->
     logger.info 'lastInteraction-event', silence, delta
