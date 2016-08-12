@@ -12,8 +12,6 @@ _bot = null
 
 
 rawHandler = (message, isAdmin) ->
-    logger.debug '[%s] %s', message.channel.name, message.content
-
     # dont care about messages not in troll-channel
     return if not message.channel.name.compareIgnoreCase TROLL_CHANNEL
 
