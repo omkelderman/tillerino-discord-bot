@@ -1,9 +1,9 @@
 logger = require('log4js').getLogger 'botinfo-watcher-module'
-_settings = require '../settings.json'
+config = require 'config'
 
 TillerinoStatusWatcher = require '../TillerinoStatusWatcher'
 
-_tillerinoStatusWatcher = new TillerinoStatusWatcher _settings.tillerinoBotInfo.url, _settings.tillerinoBotInfo.neededSilenceForErrorSec
+_tillerinoStatusWatcher = new TillerinoStatusWatcher config.get('tillerinoBotInfo.url'), config.get('tillerinoBotInfo.neededSilenceForErrorSec')
 
 _tillerinoStatusWatcher.on 'connectedChanged', (connected) ->
     logger.info 'new connected value', connected
@@ -41,7 +41,7 @@ botInfoHandler = (str, args, message, isAdmin) ->
 startTestModule = (bot, done) ->
     _bot = bot
     _bot.addListener 'command:botinfo', botInfoHandler
-    _tillerinoStatusWatcher.startWatching _settings.tillerinoBotInfo.pollIntervalSec
+    _tillerinoStatusWatcher.startWatching config.get('tillerinoBotInfo.pollIntervalSec')
     done()
 
 stopTestModule = (done) ->

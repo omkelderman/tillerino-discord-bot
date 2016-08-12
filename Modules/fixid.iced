@@ -1,12 +1,12 @@
 logger = require('log4js').getLogger 'statuscake-watcher-module'
 request = require 'request'
-_settings = require '../settings.json'
+config = require 'config'
 
-throw new Error 'tillerino key not found' if not _settings.tillerinokey
+TILLERINO_KEY = config.get 'tillerinokey'
 
 _bot = null
 
-getApiUrl = (id) -> "http://bot.tillerino.org:1666/userbyid?k=#{_settings.tillerinokey}&id=#{id}"
+getApiUrl = (id) -> "http://bot.tillerino.org:1666/userbyid?k=#{TILLERINO_KEY}&id=#{id}"
 
 doApiRequest = (id, callback) ->
     logger.debug 'doing request for userid:', id

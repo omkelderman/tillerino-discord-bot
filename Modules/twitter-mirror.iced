@@ -1,9 +1,9 @@
 logger = require('log4js').getLogger 'twitter-watcher-module'
-_settings = require '../settings.json'
+config = require 'config'
 
 TwitterWatcher = require '../TwitterWatcher'
 
-_twitterWatcher = new TwitterWatcher _settings.twitter.userId, _settings.twitter.settings
+_twitterWatcher = new TwitterWatcher config.get('twitter.userId'), config.get('twitter.settings')
 _twitterWatcher.on 'tweet', (text, urlToTweet) ->
     logger.info 'tweet', urlToTweet, text
     _bot.announche_channel.sendMessage "(<#{urlToTweet}>)\n#{text}"

@@ -99,5 +99,5 @@ jspm_packages
 
 ## custom added
 log
-settings.json
+config/local.yml
 test.iced

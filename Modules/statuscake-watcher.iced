@@ -1,9 +1,9 @@
-logger = require('log4js').getLogger 'statuscake-watcher-module'
-_settings = require '../settings.json'
+logger = require('log4js').getLogger 'statusCake-watcher-module'
+config = require 'config'
 
 StatusCakeWatcher = require '../StatusCakeWatcher'
 
-_statusCakeWatcher = new StatusCakeWatcher _settings.statuscake.publicId, _settings.statuscake.testId
+_statusCakeWatcher = new StatusCakeWatcher config.get('statusCake.publicId'), config.get('statusCake.testId')
 _statusCakeWatcher.on 'statusChange', (name, newS, oldS) ->
     logger.info 'new status', name, newS, oldS
     _bot.announche_channel.sendMessage "[*#{name}*] New status: **#{newS.Status}**. Last status was: **#{oldS.Status}** for **#{oldS.Period}**"
@@ -24,7 +24,7 @@ banchoStatusHandler = (str, args, message, isAdmin) ->
 startTestModule = (bot, done) ->
     _bot = bot
     _bot.addListener 'command:bancho-status', banchoStatusHandler
-    _statusCakeWatcher.startWatching _settings.statuscake.pollIntervalSec, done
+    _statusCakeWatcher.startWatching config.get('statusCake.pollIntervalSec'), done
 
 stopTestModule = (done) ->
     _bot.removeListener 'command:bancho-status', banchoStatusHandler

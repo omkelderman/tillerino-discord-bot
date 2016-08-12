@@ -1,8 +1,8 @@
-settings = require './settings.json'
+config = require 'config'
 path = require 'path'
 fs= require 'fs'
-MODULE_DIR = path.resolve __dirname, settings.moduleDir
-LOG_DIR = path.resolve __dirname, settings.logDir
+MODULE_DIR = path.resolve __dirname, config.get 'moduleDir'
+LOG_DIR = path.resolve __dirname, config.get 'logDir'
 
 # init logging crap
 log4js = require 'log4js'
@@ -12,14 +12,14 @@ catch error
     if error.code isnt 'EEXIST'
         console.error 'Could not create log-dir', error
         process.exit 1
-log4js.configure settings.log4js, cwd: LOG_DIR
+log4js.configure config.get('log4js'), cwd: LOG_DIR
 logger = log4js.getLogger 'app'
 # all done, start all the other stuff
 
 logger.info "starting app with pid #{process.pid}"
 
 # connect to discord
-bot = new (require('./DiscordBot')) settings.discord
+bot = new (require('./DiscordBot')) config.get 'discord'
 await bot.once 'ready', defer botUsername
 logger.info 'bot ready', botUsername
 

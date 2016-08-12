@@ -1,0 +1,45 @@
+moduleDir: Modules
+
+logDir: log
+log4js:
+    appenders:
+        - type: console
+        - type: file
+          filename: app.log
+        - type: logLevelFilter
+          level: WARN
+          maxLevel: FATAL
+          appender:
+              type: file
+              filename: error.log
+
+statusCake:
+    publicId: mtdB70snTn
+    testId: 552470
+    pollIntervalSec: 60
+
+discord:
+    token: !!js/undefined undefined
+    guild_id: "170177781257207808"
+    admin_role: Team
+    announche_channel: status
+    command_prefix: "!"
+
+redis:
+    path: "/var/run/redis/redis.sock"
+    prefix: "bot:"
+
+tillerinokey: !!js/undefined undefined
+
+twitter:
+    userId: 2532291421
+    settings:
+        consumer_key: !!js/undefined undefined
+        consumer_secret: !!js/undefined undefined
+        access_token_key: !!js/undefined undefined
+        access_token_secret: !!js/undefined undefined
+
+tillerinoBotInfo:
+    url: "http://bot.tillerino.org:1666/botinfo"
+    neededSilenceForErrorSec: 60
+    pollIntervalSec: 10

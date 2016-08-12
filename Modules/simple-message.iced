@@ -1,8 +1,10 @@
 logger = require('log4js').getLogger 'simple-message-module'
-_settings = require '../settings.json'
+config = require 'config'
 _redis = require 'redis'
 _redisClient = null
 _bot = null
+
+REDIS_PREFIX = config.get 'redis.prefix'
 
 redisErrorHandler = (err, discordChannel) ->
     logger.error 'redis error', err
@@ -35,7 +37,7 @@ allHandler = (command, argsString, args, message, adminMessage) ->
         message.channel.sendMessage "#{prefix}#{resp}"
 
 listSimpleHandler = (argsString, args, message, adminMessage) ->
-    prefix = "#{_settings.redis.prefix}simple:"
+    prefix = "#{REDIS_PREFIX}simple:"
     prefixLen = prefix.length
     _redisClient.keys "#{prefix}*", (err, resp) ->
         return redisErrorHandler err, message.channel if err
@@ -51,7 +53,7 @@ startTestModule = (bot, done) ->
     _bot.addListener 'command', allHandler
 
     # debug redis stuff
-    _redisClient = _redis.createClient _settings.redis
+    _redisClient = _redis.createClient config.get 'redis'
     _redisClient.on 'error', (err) -> redisErrorHandler err
     _redisClient.on 'ready', () ->
         logger.info 'redis connection ready'
