@@ -4,6 +4,11 @@ fs= require 'fs'
 MODULE_DIR = path.resolve __dirname, config.get 'moduleDir'
 LOG_DIR = path.resolve __dirname, config.get 'logDir'
 
+# string extensions
+String::startsWith         ?= (s) -> @[...s.length] is s
+String::endsWith           ?= (s) -> s is '' or @[-s.length..] is s
+String::compareIgnoreCase  ?= (s) -> s.toUpperCase() is @.toUpperCase()
+
 # init logging crap
 log4js = require 'log4js'
 try

@@ -1,5 +1,5 @@
 logger = require('log4js').getLogger 'Bot'
-Discordie = require('discordie');
+Discordie = require 'discordie'
 
 String::startsWith         ?= (s) -> @[...s.length] is s
 String::endsWith           ?= (s) -> s is '' or @[-s.length..] is s
@@ -63,6 +63,8 @@ class DiscordBot extends process.EventEmitter
         return if message.author.id is @botUser.id
 
         adminMessage = @_isMessageFromAdmin message
+
+        @emit 'raw', message, adminMessage
 
         if message.isPrivate
             # dm

@@ -23,6 +23,8 @@ discord:
     guild_id: "170177781257207808"
     admin_role: Team
     announche_channel: status
+    troll_channel: general
+    troll_prefix: "!r"
     command_prefix: "!"
 
 redis:
