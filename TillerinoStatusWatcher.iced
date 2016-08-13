@@ -25,13 +25,14 @@ class TillerinoStatusWatcher extends process.EventEmitter
 
     _watchInterval: () ->
         await @queryBotInfo defer err, botInfo
-        if err && (err.code isnt 'ECONNREFUSED')
+        if err && (err.code isnt 'ECONNREFUSED') && (err.code isnt 'ECONNRESET')
             logger.error 'could not query tillerino-botinfo', err
+            @emit 'request-error', err
             # TODO do something smart
             return
 
         if err
-            # connection refused!
+            # connection problem!
             if not @conRefusedWarningGiven
                 # give ded-error
                 @conRefusedWarningGiven = true
