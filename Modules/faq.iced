@@ -7,7 +7,7 @@ sections =
     futureyou: "what-does-future-you-mean"
     mutual: "mutual-me-pls"
     std: "does-this-work-for-other-game-modes-than-standard"
-    fixid: "How-to-fix-\"confusing-name\"-error"
+    fixid: "the-bot-tells-me-my-username-is-confusing-halp"
 
 faqHandler = (str, args, message, isAdmin) ->
     section = sections[args[0]]
