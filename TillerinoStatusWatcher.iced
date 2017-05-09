@@ -2,8 +2,6 @@ logger = require('log4js').getLogger 'TillerinoStatusWatcher'
 
 request = require 'request'
 
-#url = 'http://bot.tillerino.org:1666/botinfo'
-
 setIntervalWithThis = (_this, func, msDelay, oArgs...) -> setInterval (()->func.apply _this, oArgs), msDelay
 
 class TillerinoStatusWatcher extends process.EventEmitter

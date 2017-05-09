@@ -42,6 +42,6 @@ twitter:
         access_token_secret: !!js/undefined undefined
 
 tillerinoBotInfo:
-    url: "http://bot.tillerino.org:1666/botinfo"
+    url: !!js/undefined undefined
     neededSilenceForErrorSec: 60
     pollIntervalSec: 10
