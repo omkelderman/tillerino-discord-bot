@@ -6,7 +6,7 @@ TILLERINO_KEY = config.get 'tillerinokey'
 
 _bot = null
 
-getApiUrl = (id) -> "http://bot.tillerino.org:1666/userbyid?k=#{TILLERINO_KEY}&id=#{id}"
+getApiUrl = (id) -> "https://api.tillerino.org/userbyid?k=#{TILLERINO_KEY}&id=#{id}"
 
 doApiRequest = (id, callback) ->
     logger.debug 'doing request for userid:', id
