@@ -1,7 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "start": "echo run './node_modules/.bin/iced app.iced'. Letting npm do it results in weird signal catching, dont like it"
+    "start": "echo run './node_modules/.bin/iced app.iced'. Letting npm do it results in weird signal catching, dont like it",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "dependencies": {
     "config": "^1.21.0",
@@ -10,9 +12,11 @@
     "log4js": "^0.6.36",
     "redis": "^2.6.0-2",
     "request": "^2.72.0",
-    "twitter": "^1.3.0"
+    "twitter": "^1.3.0",
+    "snyk": "^1.85.0"
   },
   "devDependencies": {
     "iced-coffee-script": "^108.0.11"
-  }
+  },
+  "snyk": true
 }
